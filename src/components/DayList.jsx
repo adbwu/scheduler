@@ -1,11 +1,11 @@
 import React from "react";
 import DayListItem from "./DayListItem";
-import { useState } from "react";
+
 
 export default function DayList(props) {
 
   const dayListItems = props.days.map((day) => {
-  return (<ul>
+  return (
      <DayListItem 
         key={day.id}
         name={day.name} 
@@ -13,12 +13,12 @@ export default function DayList(props) {
         selected={day.name === props.day}
         setDay={props.setDay}  
       />
-  </ul>);
+  );
   });
 
   return (
     <section className="DayList">
-      {dayListItems}
+      <ul>{dayListItems}</ul>
     </section>
   )
 }
