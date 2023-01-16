@@ -50,9 +50,15 @@ const appointments = {
 
 export default function Application(props) {
   
-  const [days, setDays] = useState([]);
-  const [day, setDay] = useState('Monday');
-  const [interviewer, setInterviewer] = useState('');
+  const [state, setState] = useState({
+    day: 'Monday',
+    days: [],
+    interviewer: '',
+    appointments: {}
+  });
+  const setDay = day => setState({ ...state, day });
+  const setDays = days => setState({ ...state, days });
+  const setInterviewer = interviewer => setState({ ...state, interviewer });
 
   useEffect(() => {Axios.get('http://localhost:8001/api/days')
     .then((response) => setDays(response.data))}, []);
@@ -68,13 +74,13 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            value={day}
+            days={state.days}
+            value={state.day}
             onChange={setDay}
             >
               <InterviewerList 
               interviewers={props.interviewers}
-              value={interviewer}
+              value={state.interviewer}
               onChange={setInterviewer}/>
             </DayList>
             
