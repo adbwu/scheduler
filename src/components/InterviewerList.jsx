@@ -4,14 +4,14 @@ import "components/InterviewerList.scss";
 
 import InterviewerListItem from "components/InterviewerListItem";
 
-import { useState } from "react";
-
 export default function InterviewerList (props) {
-  const [currentInterviewer, setInterviewer] = useState();
+  // const [currentInterviewer, setInterviewer] = useState();
 
-
-  const interviewerListItems = props.interviewers.map((interviewer) =>  {
+  
+  const interviewerListItems = 
+  props.interviewers.map((interviewer) =>  {
     return (
+  
       <InterviewerListItem
       key={interviewer.id}
       name={interviewer.name}

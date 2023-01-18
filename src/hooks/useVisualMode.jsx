@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 
 export default function useVisualMode(intitalMode) {
   const [mode, setMode] = useState(intitalMode);
@@ -11,7 +11,6 @@ export default function useVisualMode(intitalMode) {
         history.pop();
       }
       setHistory([...history, transitionMode]);
-      console.log("transition" + history);
     }          
   };
 

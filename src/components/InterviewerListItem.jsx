@@ -6,13 +6,11 @@ import classNames from
 "classnames";
 
 export default function InterviewerListItem(props) {
-  console.log(props.key);
 
   const interviewerListItemClass = classNames('interviewers__item', {'interviewers__item--selected': props.selected})
 
   return (
   <li 
-  key={props.key} 
   className={interviewerListItemClass}
   onClick={props.setInterviewer}
   >

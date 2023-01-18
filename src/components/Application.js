@@ -6,48 +6,7 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import InterviewerList from "./InterviewerList";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
-
-// Mock Appointments Data --------------------------
-
-// const appointments = {
-//   "1": {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   "2": {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer:{
-//         id: 3,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   "3": {
-//     id: 3,
-//     time: "2pm",
-//   },
-//   "4": {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Archie Andrews",
-//       interviewer:{
-//         id: 4,
-//         name: "Cohana Roy",
-//         avatar: "https://i.imgur.com/FK8V841.jpg",
-//       }
-//     }
-//   },
-//   "5": {
-//     id: 5,
-//     time: "4pm",
-//   }
-// };
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
 
 export default function Application(props) {
   
@@ -60,8 +19,6 @@ export default function Application(props) {
   });
 
   const setDay = day => setState({ ...state, day });
-  const setDays = days => setState({ ...state, days });
-  const setAppointments = appointments => setState({ ...state, appointments });
   const setInterviewer = interviewer => setState({ ...state, interviewer });
 
   useEffect(() => {
@@ -74,7 +31,57 @@ export default function Application(props) {
     })}, []);
 
   let dailyAppointments = getAppointmentsForDay(state, state.day);
+  let dailyInterviewers = getInterviewersForDay(state, state.day);
 
+  function bookInterview(id, interview) {
+    return new Promise((resolve, reject) => {
+      const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+      };
+      const appointments = {
+      ...state.appointments,
+      [id]: appointment
+      };
+      Axios.put(`/api/appointments/${id}`, {...appointment})
+        .then((res) => {
+          setState({ ...state, appointments });
+          resolve(res);
+      })
+        .catch((error) => {
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          console.log(error.response.data);
+          reject(error);
+      });
+    });
+  }
+
+  function cancelInterview(id) {
+    return new Promise((resolve, reject) => {
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      Axios.delete(`/api/appointments/${id}`, {appointment})
+        .then((res) => {
+          setState({ ...state, appointments });
+          resolve(res);
+      })
+        .catch((error) => {
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          console.log(error.response.data);
+          reject(error);
+      });
+    })
+  }
+
+    
   return (
     <main className="layout">
       <section className="sidebar">
@@ -91,9 +98,9 @@ export default function Application(props) {
             onChange={setDay}
             >
               <InterviewerList 
-              interviewers={props.interviewers}
               value={state.interviewer}
-              onChange={setInterviewer}/>
+              onChange={setInterviewer}
+              />
             </DayList>
             
         </nav>
@@ -106,13 +113,15 @@ export default function Application(props) {
       <section className="schedule">
         {dailyAppointments.map((appointment) => {
           const interview = getInterview(state, appointment.interview);
-          
           return (
             <Appointment
               key={appointment.id}
               id={appointment.id}
               time={appointment.time}
               interview={interview}
+              interviewers={dailyInterviewers}
+              bookInterview={bookInterview}
+              cancelInterview={cancelInterview}
             />
           )
         })}
