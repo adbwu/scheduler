@@ -10,6 +10,18 @@ export function getAppointmentsForDay(state, day) {
   return appointmentsArray;
 };
 
+export function getInterviewersForDay(state, day) {
+  let interviewersArray = [];
+  let dayArray = (state.days.find(obj => obj.name === day));
+  if (!day || !dayArray) {
+    return interviewersArray;
+  }
+  dayArray.interviewers.forEach(app => {
+    interviewersArray.push(state.interviewers[app]);
+  })
+  return interviewersArray;
+};
+
 export function getInterview(state, interview) {
   let interviewObj = {};
   if (interview === null) {
