@@ -17,7 +17,7 @@ export default function Application(props) {
     bookInterview,
     cancelInterview
   } = useApplicationData();
-  
+
   let dailyInterviewers = getInterviewersForDay(state, state.day);
   
   let dailyAppointments = getAppointmentsForDay(state, state.day).map((appointment) => {
@@ -34,7 +34,7 @@ export default function Application(props) {
       />
     )
   });
-  
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -55,7 +55,7 @@ export default function Application(props) {
               onChange={setInterviewer}
               />
             </DayList>
-            
+          
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"

@@ -31,3 +31,13 @@ export function getInterview(state, interview) {
   interviewObj.interviewer = state.interviewers[interview.interviewer];
   return interviewObj;
 };
+
+export function getRemainingSpotsForDay(appointments, day) {
+  let remainingSpots = 0;
+  day.appointments.forEach(app => {
+    if (appointments[app].interview === null) {
+      remainingSpots++;
+    }
+  })
+  return remainingSpots;
+};
