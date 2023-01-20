@@ -109,12 +109,14 @@ describe("Appointment", () => {
     );
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
     });
-    it("shows the save error when failing to save an appointment", async () => {
-      axios.put.mockRejectedValueOnce({response:{status: 500,
-        statusText: "Error",
-        data: "Error"}});
 
-      const { container } = render(<Application />);
+    it("shows the save error when failing to save an appointment", async () => {
+     // Fakes an error by using real axios library once 
+      axios.put.mockRejectedValueOnce({response:{status: 500,
+        headers: "Fake Error for Save Testing",
+        data: "Shhhh it's a secret"}});
+
+    const { container } = render(<Application />);
   
     await waitForElement(() => getByText(container, "Archie Cohen"));
   
@@ -130,7 +132,41 @@ describe("Appointment", () => {
     fireEvent.click(getByText(appointment, "Save"));
   
     expect(getByText(appointment, "Saving...")).toBeInTheDocument();
-  
-    await waitForElement((response) => getByText(appointment, "Unable to save!"));
+
+    //Ensures error element appears    
+    await waitForElement(() => getByText(appointment, "Unable to save!"));
     });
+
+    it("shows the delete error when failing to delete an appointment", async () => {
+      // Fakes an error by using real axios library once 
+       axios.delete.mockRejectedValueOnce({response:{status: 500,
+         headers: "This Is Still A Fake Error for Delete Testing",
+         data: "Nothing is actually wrong. Take a deep breath."}});
+ 
+     // 1. Render the Application.
+      const { container } = render(<Application />);
+    
+      // 2. Wait until the text "Archie Cohen" is displayed.
+      await waitForElement(() => getByText(container, "Archie Cohen"));
+  
+      const appointments = getAllByTestId(container, "appointment");
+  
+      const appointment = appointments[1];
+  
+      // 3. Click the "Delete" button on the "Archie Cohen" appointment.
+      fireEvent.click(getByAltText(appointment, "Delete"));
+      
+      //4. Wait until the text "Are you sure you would like to delete?" is displayed
+      await waitForElement(() => getByText(appointment, "Are you sure", {exact: false}));
+  
+      // 5. Click the "Confirm" button.
+      fireEvent.click(getByText(appointment, "Confirm"));
+      
+    //   // 6. Check that the element with the text "Deleting..." is displayed
+       expect(getByText(appointment, "Deleting...")).toBeInTheDocument();
+ 
+    //  //Ensures error element appears    
+     await waitForElement(() => getByText(appointment, "Unable to delete!"));
+     });
+    
 });
