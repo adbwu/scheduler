@@ -14,9 +14,9 @@ export default function useApplicationData() {
 
   useEffect(() => {
     Promise.all([
-    Axios.get('http://localhost:8001/api/days'),
-    Axios.get('http://localhost:8001/api/appointments'),
-    Axios.get('http://localhost:8001/api/interviewers')])
+    Axios.get('/api/days'),
+    Axios.get('/api/appointments'),
+    Axios.get('/api/interviewers')])
     .then((all) => {
       setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}));
     })}, []);
