@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, getByText, getAllByTestId, getByAltText, prettyDOM } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, getByTestId, getAllByTestId, getByAltText, prettyDOM } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -32,6 +32,14 @@ describe("Appointment", () => {
     const appointment = getAllByTestId(container, "appointment")[0];
     
     fireEvent.click(getByAltText(appointment, "Add"));
+
+    const nameInput = getByTestId(container, "student-name-input");
+    
+    fireEvent.change(nameInput, {target: {value: 'Lydia Miller-Jones'}})
+
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+
+    fireEvent.click(getByText(appointment, "Save"));
 
     console.log(prettyDOM(appointment));
   });

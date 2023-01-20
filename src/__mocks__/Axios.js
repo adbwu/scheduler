@@ -85,5 +85,23 @@ export default {
         data: fixtures.interviewers
       });
     }
+  }),
+  put: jest.fn(url => {
+    if (url === "/api/appointments") {
+    /* Resolve saving appointments*/
+      return Promise.resolve({
+        status: 200,
+        statusText: "No Content"
+      });
+    }
+  }),
+  delete: jest.fn(url => {
+    if (url === "/api/appointments") {
+    /* Resolve deleting appointments*/
+      return Promise.resolve({
+        status: 200,
+        statusText: "No Content"
+      });
+    }
   })
 };
