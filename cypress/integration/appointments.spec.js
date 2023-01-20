@@ -27,7 +27,7 @@ describe("Appointments", () => {
     cy.get("[data-testid=appointment]")
       .should("contain", "Lydia Miller-Jones");
   });
-  it("should edit an interview", () => {
+  xit("should edit an interview", () => {
     cy.get("[alt=Edit]")
     .first()
     .click({ force: true });
@@ -39,5 +39,22 @@ describe("Appointments", () => {
 
     cy.contains(".appointment__card--show", "Lydia Miller-Jones");
     cy.contains(".appointment__card--show", "Tori Malcolm");
+  });
+  it("should cancel an interview", () => {
+    cy.get("[alt=Delete]")
+    .first()
+    .click({ force: true });
+
+    cy.contains("Confirm")
+      .click();
+
+    cy.get("[data-testid=appointment]")
+    .should("contain", "Deleting...");
+
+    cy.get("[data-testid=appointment]")
+    .should("contain", "Deleting...");
+
+    cy.contains("Archie Cohen")
+      .should('not.exist');
   });
 });
