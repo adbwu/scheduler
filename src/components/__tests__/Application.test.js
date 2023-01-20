@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, getAllByTestId, getByAltText, prettyDOM } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -22,8 +22,17 @@ describe("Appointment", () => {
     });
   });
 
-  it("loads data, books an interview and reduces the spots remaining for the first day by 1", () => {
+  it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
     const { container } = render(<Application />);
-    console.log(prettyDOM(container));
+
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // console.log(prettyDOM(container));
+
+    const appointment = getAllByTestId(container, "appointment")[0];
+    
+    fireEvent.click(getByAltText(appointment, "Add"));
+
+    console.log(prettyDOM(appointment));
   });
 });
