@@ -39,7 +39,6 @@ export default function useApplicationData() {
 
   function bookInterview(id, interview) {
     return new Promise((resolve, reject) => {
-      console.log(state.appointments);
       const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
