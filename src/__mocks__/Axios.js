@@ -1,7 +1,3 @@
-import Axios from "axios";
-
-jest.mock('Axios');
-
 const fixtures = {
   days: [
     {
@@ -87,19 +83,17 @@ export default {
     }
   }),
   put: jest.fn(url => {
-      return Promise.resolve({
-        status: 204,
-        statusText: "No Content",
-        data: "data"
-      }).catch(error => {
-        console.log("Error: ", error);
-      });
+    return Promise.resolve({
+      status: 200,
+      statusText: "OK",
+      data: "resolved"
+    });
   }),
   delete: jest.fn(url => {
-    /* Resolve deleting appointments*/
-      return Promise.resolve({
-        status: 200,
-        statusText: "No Content"
-      });
+    return Promise.resolve({
+      status: 200,
+      statusText: "OK",
+      data: "resolved"
+    });
   })
 };
