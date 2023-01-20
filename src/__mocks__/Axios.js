@@ -87,21 +87,19 @@ export default {
     }
   }),
   put: jest.fn(url => {
-    if (url === "/api/appointments") {
-    /* Resolve saving appointments*/
       return Promise.resolve({
-        status: 200,
-        statusText: "No Content"
+        status: 204,
+        statusText: "No Content",
+        data: "data"
+      }).catch(error => {
+        console.log("Error: ", error);
       });
-    }
   }),
   delete: jest.fn(url => {
-    if (url === "/api/appointments") {
     /* Resolve deleting appointments*/
       return Promise.resolve({
         status: 200,
         statusText: "No Content"
       });
-    }
   })
 };
