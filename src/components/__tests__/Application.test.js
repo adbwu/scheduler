@@ -4,6 +4,8 @@ import { render, cleanup, waitForElement, fireEvent, getByText, getByTestId, get
 
 import Application from "components/Application";
 
+import axios from "axios";
+
 describe("Appointment", () => {
   it("defaults to Monday and changes the schedule when a new day is selected", () => {
     const { getByText } = render(<Application />);
@@ -106,5 +108,29 @@ describe("Appointment", () => {
       queryByText(day, "Monday")
     );
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+    });
+    it("shows the save error when failing to save an appointment", async () => {
+      axios.put.mockRejectedValueOnce({response:{status: 500,
+        statusText: "Error",
+        data: "Error"}});
+
+      const { container } = render(<Application />);
+  
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+  
+    const appointment = getAllByTestId(container, "appointment")[0];
+  
+    fireEvent.click(getByAltText(appointment, "Add"));
+  
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Lydia Miller-Jones" }
+    });
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
+  
+    fireEvent.click(getByText(appointment, "Save"));
+  
+    expect(getByText(appointment, "Saving...")).toBeInTheDocument();
+  
+    await waitForElement((response) => getByText(appointment, "Unable to save!"));
     });
 });
