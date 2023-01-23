@@ -1,3 +1,15 @@
+export function getDataForDay(type, state, day) {
+  let dayDataArray = [];
+  let dayArray = (state.days.find(obj => obj.name === day));
+  if (!day || !dayArray) {
+    return dayDataArray;
+  }
+  dayArray[type].forEach(app => {
+    dayDataArray.push(state[type][app]);
+  })
+  return dayDataArray;
+}
+
 //Retrieves appointments for the day, returns an array of appointments
 //Args: 
  //State: {day, days, interviewer, interviewers, appointments}
