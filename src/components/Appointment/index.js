@@ -41,7 +41,7 @@ export default function Appointment(props){
     transition(SAVING);
     props
       //Boooks the interview
-      .bookInterview(props.id, interview)
+      .manageInterview(props.id, interview)
       .then(() => {
         //Shows the resulting booked interview
         transition(SHOW);})
@@ -54,7 +54,7 @@ export default function Appointment(props){
     //uses useVisualMode hook to set mode to "Deleting" so user knows information is being processed
     transition(DELETING, true);
     props
-      .cancelInterview(props.id)
+      .manageInterview(props.id)
       //Shows the resulting empty interview slot
       .then(() => transition(EMPTY))
       //Catches the error and shows error mode to the user

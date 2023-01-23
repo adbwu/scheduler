@@ -45,13 +45,32 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, days}));
   }
 
-  //Takes in id and interview as props, and returns a promise that confirms that interview was booked.
-  function bookInterview(id, interview) {
+  //Sends data to Axios based on whether there is an interview or not, returns response
+  function sendData(id, appointment) {
+    if (appointment.interview) {
+      return new Promise((resolve, reject) => {
+        Axios
+          .put(`/api/appointments/${id}`, {...appointment})
+          .then(res => resolve(res))
+          .catch(err => reject(err));
+      });
+    };
+    return new Promise((resolve, reject) => {
+      Axios
+        .delete(`/api/appointments/${id}`, {appointment})
+        .then(res => resolve(res))
+        .catch(err => reject(err));
+    });
+  };
+
+  //Takes in id and interview as props, and returns a promise that confirms that interview was booked or deleted, depending on if an interview was included in args.
+  function manageInterview(id, interview) {
     return new Promise((resolve, reject) => {
       //Creates appointment object
       const appointment = {
       ...state.appointments[id],
-      interview: { ...interview }
+      //Sets interview to "null" if it doesn't exist
+      interview: (interview ? { ...interview } : null)
       };
       //Adds appointment to current appointments object
       const appointments = {
@@ -59,7 +78,7 @@ export default function useApplicationData() {
       [id]: appointment
       };
       //Updates appointments in API
-      Axios.put(`/api/appointments/${id}`, {...appointment})
+      sendData(id, appointment)
         .then((res) => {
           //Sets the appointments state to trigger rerender
           setState({ ...state, appointments });
@@ -77,46 +96,13 @@ export default function useApplicationData() {
       });
     });
   }
-  
-  //Takes in interview id to remove interview from database and returns promise that confirms the appointment was deleted
-  function cancelInterview(id) {
-    return new Promise((resolve, reject) => {
-      //Creates empty appointment object
-      const appointment = {
-        ...state.appointments[id],
-        interview: null
-      };
-      //Adds empty appointment to current appointments object
-      const appointments = {
-        ...state.appointments,
-        [id]: appointment
-      };
-      //Updates appointments in API
-      Axios.delete(`/api/appointments/${id}`, {appointment})
-        .then((res) => {
-          //Sets the appointments state to trigger rerender
-          setState({ ...state, appointments });
-          //Updates the remain spots in sidebar
-          updateSpots(appointments);
-          //Returns promise to trigger Empty visual mode
-          resolve(res);
-      })
-        .catch((error) => {
-          console.log(error.response.status);
-          console.log(error.response.headers);
-          console.log(error.response.data);
-          //Returns error to trigger Error visual mode
-          reject(error);
-      });
-    })
-  }
 
   //Exports functions
   return {
     state,
+    setState,
     setDay,
     setInterviewer,
-    bookInterview,
-    cancelInterview,
+    manageInterview
   };
 }

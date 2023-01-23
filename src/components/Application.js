@@ -12,6 +12,7 @@ import { getDataForDay, getInterview } from "helpers/selectors";
 export default function Application() {
   const {
     state,
+    manageInterview,
     setDay,
     setInterviewer,
     bookInterview,
@@ -31,6 +32,7 @@ export default function Application() {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        manageInterview={manageInterview}
         bookInterview={bookInterview}
         cancelInterview={cancelInterview}
       />
