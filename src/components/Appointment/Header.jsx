@@ -1,5 +1,7 @@
 import React from "react"
 
+//returns the header for each appointment slot
+//props: time
 export default function Header(props) {
 
   return (

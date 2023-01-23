@@ -4,6 +4,8 @@ import "components/InterviewerList.scss";
 
 import InterviewerListItem from "components/InterviewerListItem";
 
+//Returns interviewer elements for the interview form
+//Props: interviewers, onChange
 export default function InterviewerList (props) {
 
   const interviewerListItems = 

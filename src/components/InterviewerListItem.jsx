@@ -5,6 +5,8 @@ import "components/InterviewerListItem.scss";
 import classNames from 
 "classnames";
 
+//Returns individual interviewer element for interview form
+//Props: key, name, avatar, selected, setInterviewer
 export default function InterviewerListItem(props) {
 
   const interviewerListItemClass = classNames('interviewers__item', {'interviewers__item--selected': props.selected})

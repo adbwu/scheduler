@@ -4,6 +4,8 @@ import "components/Button.scss";
 
 import classNames from "classnames";
 
+//Returns a button element
+//Props: confirm, danger, onClick, disabled, children
 export default function Button(props) {
   const buttonClass = classNames( 'button', {
     'button--confirm': props.confirm, 

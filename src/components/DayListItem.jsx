@@ -4,6 +4,8 @@ import "components/DayListItem.scss";
 
 import classNames from "classnames";
 
+//Returns each individual day for the sidebar
+//Props: key, spots, selected, onChange
 export default function DayListItem(props) {
   const dayListItemClass = classNames( 'day-list__item', {
     'day-list__item--selected': props.selected,

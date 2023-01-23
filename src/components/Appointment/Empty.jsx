@@ -1,5 +1,7 @@
 import React from "react"
 
+//returns the Empty mode
+//props: onAdd
 export default function Empty(props) {
 
   return (

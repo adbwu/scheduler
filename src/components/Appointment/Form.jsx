@@ -3,22 +3,31 @@ import React, { useState } from "react";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
+//returns the Form mode
+//Props: 
+  //Intial booking: interviewers, onCancel, onSave
+  //Editing a books: student, interviewer, interviewers, onCancel, onSave (fills appropriate fields)
 export default function Form(props) {
+  //Set intial student to empty or uses provided
   const [student, setStudent] = useState(props.student || "");
+  //Sets intial interview to null or uses provided
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
 
+  //Reset function to clear the form
   const reset = () => {
     setStudent("");
     setInterviewer(null);
     setError("");
   };
 
+  //Clears the form and intializes canceling
   const cancel = () => {
     reset();
     props.onCancel();
   }
 
+  //Validates correct content is the fields then saves interview
   function validate(student, interviewer) {
     if (student === "") {
       setError("Student name cannot be blank");

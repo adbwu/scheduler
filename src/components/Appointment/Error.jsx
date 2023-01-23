@@ -1,5 +1,7 @@
 import React from "react";
 
+//returns the Error mode
+//props: message, onClose
 export default function Error(props) {
   return (
     <main className="appointment__card appointment__card--error">
