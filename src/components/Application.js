@@ -7,7 +7,7 @@ import useApplicationData from "hooks/useApplicationData";
 import DayList from "./DayList";
 import InterviewerList from "./InterviewerList";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
+import { getDataForDay, getInterview } from "helpers/selectors";
 
 export default function Application() {
   const {
@@ -19,10 +19,10 @@ export default function Application() {
   } = useApplicationData();
 
   //Retrieves interviews, returns an array
-  let dailyInterviewers = getInterviewersForDay(state, state.day);
+  let dailyInterviewers = getDataForDay("interviewers", state, state.day);
   
   //Retrieves interviews, returns components
-  let dailyAppointments = getAppointmentsForDay(state, state.day).map((appointment) => {
+  let dailyAppointments = getDataForDay("appointments", state, state.day).map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return (
       <Appointment

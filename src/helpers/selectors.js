@@ -1,3 +1,8 @@
+//Retrieves data for the day based on type, returns an array of either appointments or interviewers
+//Args: 
+  //Type: ("interviewers" or "appointments")
+  //State: {day, days, interviewer, interviewers, appointments}
+  //Day: id
 export function getDataForDay(type, state, day) {
   let dayDataArray = [];
   let dayArray = (state.days.find(obj => obj.name === day));
@@ -9,38 +14,6 @@ export function getDataForDay(type, state, day) {
   })
   return dayDataArray;
 }
-
-//Retrieves appointments for the day, returns an array of appointments
-//Args: 
- //State: {day, days, interviewer, interviewers, appointments}
- //Day: id
-export function getAppointmentsForDay(state, day) {
-  let appointmentsArray = [];
-  let dayArray = (state.days.find(obj => obj.name === day));
-  if (!day || !dayArray) {
-    return appointmentsArray;
-  }
-  dayArray.appointments.forEach(app => {
-    appointmentsArray.push(state.appointments[app]);
-  })
-  return appointmentsArray;
-};
-
-//Retrieves interviews for the day, returns an array of interviews
-//Args: 
- //State: {day, days, interviewer, interviewers, appointments}
- //Day: id
-export function getInterviewersForDay(state, day) {
-  let interviewersArray = [];
-  let dayArray = (state.days.find(obj => obj.name === day));
-  if (!day || !dayArray) {
-    return interviewersArray;
-  }
-  dayArray.interviewers.forEach(app => {
-    interviewersArray.push(state.interviewers[app]);
-  })
-  return interviewersArray;
-};
 
 //Retrieves requested interview, returns an interview object
 //Args: 
