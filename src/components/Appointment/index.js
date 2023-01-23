@@ -12,8 +12,11 @@ import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
 
+//Called from Application.js
+//Props: key, id, time, interview, interviewers, bookInterview, cancelInterview
 export default function Appointment(props){ 
 
+  //List of available modes
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -24,29 +27,41 @@ export default function Appointment(props){
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
   
+  //Sets initial mode based on the occurance of an interview or not
   const { mode, transition, back } = useVisualMode(props.interview? SHOW : EMPTY);
   
+  //saves an interview
   function save(name, interviewer) {
+    //Sets the interview
     const interview = {
       student: name,
       interviewer
     };
+    //uses useVisualMode hook to set mode to "Saving" so user knows information is being processed
     transition(SAVING);
     props
+      //Boooks the interview
       .bookInterview(props.id, interview)
       .then(() => {
+        //Shows the resulting booked interview
         transition(SHOW);})
+      //Catches the error and shows error mode to the user
       .catch(error => transition(ERROR_SAVE, true));
   };
 
+  //deletes a currently existing interview
   function destroy() {
+    //uses useVisualMode hook to set mode to "Deleting" so user knows information is being processed
     transition(DELETING, true);
     props
       .cancelInterview(props.id)
+      //Shows the resulting empty interview slot
       .then(() => transition(EMPTY))
+      //Catches the error and shows error mode to the user
       .catch(error => transition(ERROR_DELETE, true));
   }
 
+  //Returns the appointment componment, with content based on the use of useVisualMode hook and user interaction
   return (
     <article className="appointment" data-testid="appointment">
       <Header 
