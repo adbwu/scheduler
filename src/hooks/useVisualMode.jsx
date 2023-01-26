@@ -10,12 +10,11 @@ export default function useVisualMode(intitalMode) {
     if (mode !== transitionMode){
       //Sets the requested mode
       setMode(transitionMode);
-      // Removes previous mode (in the case of an error)
-      if (replace) {
-        history.pop();
+      // Does not add current mode to history if replace is true
+      if (!replace) {
+        //Adds requested mode to history array
+        setHistory(prev => [...prev, transitionMode]);
       }
-      //Adds requested mode to history array
-      setHistory([...history, transitionMode]);
     }          
   };
 
