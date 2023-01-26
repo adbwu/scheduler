@@ -6,7 +6,7 @@ App built on React that allows users to book, edit and cancel interviews. Tested
 
 Install dependencies with `npm install`.
 
-### Dependencies:
+#### Dependencies:
 - axios
 - classnames
 - normalize.css
