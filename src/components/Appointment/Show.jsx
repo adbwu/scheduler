@@ -1,7 +1,7 @@
 import React from "react"
 
 //Returns the Confirm mode
-//Props: student, interview, onDelete, onEdit
+//Props: student, interview, onDelete, onEdit, type (type on is sent on "EDIT" mode)
 export default function Show(props) {
   return (
     <main className="appointment__card appointment__card--show">

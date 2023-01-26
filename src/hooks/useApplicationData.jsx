@@ -26,11 +26,11 @@ export default function useApplicationData() {
     })}, []);
 
   function setDay(day) {
-    setState({ ...state, day });
+    setState(prev => ({ ...prev, day }));
   }
 
   function setInterviewer(interviewer) {
-    setState({ ...state, interviewer });
+    setState(prev => ({ ...prev, interviewer }));
   }
 
   //Function to update remaining spots for day in side bar

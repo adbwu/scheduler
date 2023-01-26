@@ -14,6 +14,7 @@ export default function useVisualMode(intitalMode) {
       if (!replace) {
         //Adds requested mode to history array
         setHistory(prev => [...prev, transitionMode]);
+        console.log("trans " + history);
       }
     }          
   };
@@ -23,10 +24,9 @@ export default function useVisualMode(intitalMode) {
     //Ensures there is a mode to return to
     if (history.length > 1) {
     //Removes current mode from history array and updates it
-    history.pop();
-    setHistory([...history]);
+    setHistory((prev) => prev.filter((mode, index) => index !== (prev.length - 1)));
     //Sets the mode to the last mode in the history array
-    const lastMode = history[history.length - 1];
+    const lastMode = history[history.length - 2];
     setMode(lastMode);
     }
   };

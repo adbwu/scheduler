@@ -64,7 +64,7 @@ describe("Form", () => {
     expect(onSave).not.toHaveBeenCalled();
   });
   
-  xit("calls onSave function when the name and interviewer is defined", () => {
+  it("calls onSave function when the name and interviewer is defined", () => {
     /* 1. Create the mock onSave function */
     const onSave = jest.fn();
     /* 2. Render the Form with interviewers, name and the onSave mock function passed as an onSave prop */
